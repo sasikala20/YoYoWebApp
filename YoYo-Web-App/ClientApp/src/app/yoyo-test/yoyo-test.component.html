@@ -1,0 +1,95 @@
+<p class="bold">YoYo Test</p>
+
+<circle-progress id="circleProgress" (click)= "circleclick()"
+  [percent]="percent"
+  [radius]="80"
+  [outerStrokeWidth]="8"
+  [innerStrokeWidth]="8"
+  [outerStrokeColor]="'#78C000'"
+  [innerStrokeColor]="'#C7E596'"
+  [animation]="true"
+  [animationDuration]="300"
+  [showUnits]="false"
+  [title] ="titleName"
+  [subtitle]="subTitleName"
+  [startFromZero] = "false"
+  [renderOnClick] = "true"
+></circle-progress>
+
+<hr>
+
+<div class="row justify-content-left text-center">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <div class="row ">
+
+                <div class="col">
+                    <p>Next <br /> Shuttle</p>
+                    <p id="shuttleTimer">{{nextShuttleTimer}}</p>
+
+                </div>
+                <div class="col">
+                    <p>Total <br /> Time</p>
+                    <p id="totalTimer">{{totalMin}}:{{totalSec % 60}}</p>
+
+                </div>
+                <div class="col">
+                    <p>Total <br /> Distance</p>
+                    <p><span id="currentTotalDistance">{{nextFitnessRating == null? '0' :nextFitnessRating.accumulatedShuttleDistance }}</span> m</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<Span>Track</Span>
+<hr>
+<table>
+
+    <th>
+
+    </th>
+
+    <tr *ngFor="let athlete of athletes">
+        <td>
+            {{ athlete.id}}
+        </td>
+        <td>
+            
+        </td>
+        <td>
+            {{ athlete.name }}
+        </td>
+        <td>
+            
+        </td>
+        <div *ngIf="!athlete.isWarned || !athlete.isStopped">
+            <td>
+                <button [disabled]="athlete.isWarned" class="btn btn-warning" (click) = "Warn(athlete.id)"
+                >{{athlete.isWarned ? 'Warned' :
+                    'Warn'}}</button>
+            </td>
+            <td>
+
+            </td>
+            <td>
+                <button [disabled]="!athlete.isWarned" class="btn btn-danger" (click) = "Stop(athlete.id)">Stop</button>
+            </td>
+        </div>
+        <div *ngIf="athlete.isWarned && athlete.isStopped ">
+            <td>
+                <select name="result" id="result">
+                    <!-- <option  [value]="athlete.speedLevel-athlete.shuttleNumber">
+                        {{athlete.speedLevel}}-{{athlete.shuttleNumber}}</option> -->
+                    <option  *ngFor="let fitnessrate of _fitnessRating" [value]="fitnessrate.speedLevel-fitnessrate.shuttleNo" [selected]="selectedDropdown(fitnessrate,athlete)">
+                        {{fitnessrate.speedLevel}}-{{fitnessrate.shuttleNo}}</option>
+                </select>
+            </td>
+        </div>
+
+    </tr>
+
+</table>
